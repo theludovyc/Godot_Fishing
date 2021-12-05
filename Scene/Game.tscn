@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://icon.png" type="Texture" id=1]
+[ext_resource path="res://Script/Player.gd" type="Script" id=2]
+
+[node name="Game" type="Node"]
+
+[node name="Player" type="Sprite" parent="."]
+position = Vector2( 551, 542 )
+texture = ExtResource( 1 )
+script = ExtResource( 2 )
+
+[node name="Line2D" type="Line2D" parent="Player"]
+points = PoolVector2Array( 0, 0, 0, 0 )
+width = 5.0
