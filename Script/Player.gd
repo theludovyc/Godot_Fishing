@@ -1,14 +1,17 @@
-extends Sprite
+extends Area2D
 
 var Flotteur = preload("res://Scene/Flotteur.tscn")
 
 onready var line = $Line2D
+onready var audio = $AudioStreamPlayer
 
 var isFishing := false
 
 var isWaitingFish := false
 
 var flotteur:Flotteur
+
+var isMouliner := false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -28,9 +31,23 @@ func _process(delta):
 		else:
 			if flotteur.canCatch():
 				print("hello")
+				flotteur.doCatch()
 			else:
 				flotteur.reset()
+				print("hello1")
 				
 	if flotteur and Input.is_action_pressed("ui_accept"):
 		if flotteur.isInWater():
-				flotteur.position.y += 50 * delta
+				if !isMouliner:
+					isMouliner = true
+					audio.play()
+				flotteur.position.y += 100 * delta
+
+	if isMouliner and Input.is_action_just_released("ui_accept"):
+		isMouliner = false
+		audio.stop()
+
+
+func _on_Area2D_area_entered(area):
+	print(area.name)
+	pass # Replace with function body.

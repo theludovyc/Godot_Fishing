@@ -1,4 +1,4 @@
-extends Node2D
+extends Area2D
 class_name Flotteur
 
 signal finishLancer
@@ -6,19 +6,22 @@ signal finishLancer
 onready var tween = $Tween
 onready var timer = $Timer
 onready var sprite = $Sprite
+onready var audio = $AudioStreamPlayer2D
 
-enum State {Lancer = 0, WaitingFish, Aspiration, WaitingCatch, Loose}
+enum State {Lancer = 0, WaitingFish, Aspiration, WaitingCatch, Catch, Loose}
 
 var state = State.Lancer
 
 func lancer(force:float):
-	tween.interpolate_property(self, "position:y", null, position.y - force, 3, Tween.TRANS_EXPO, Tween.EASE_OUT)
+	tween.interpolate_property(self, "position:y", null, position.y - force, 3, Tween.TRANS_QUART, Tween.EASE_OUT)
+	timer.start(2)
 	tween.start()
 
 func _on_Tween_tween_all_completed():
 	match(state):
 		State.Lancer:
 			state = State.WaitingFish
+			monitorable = true
 			timer.start(1) #rand_range(3, 5))
 		State.Aspiration:
 			state = State.WaitingCatch
@@ -39,6 +42,8 @@ func remonte():
 
 func _on_Timer_timeout():
 	match(state):
+		State.Lancer:
+			audio.play()
 		State.WaitingFish:
 			aspiration(0.5)
 			state = State.Aspiration
@@ -51,6 +56,10 @@ func isInWater() -> bool:
 
 func canCatch() -> bool:
 	return state == State.WaitingCatch
+	
+func doCatch():
+	tween.stop_all()
+	state = State.Catch
 
 func reset():
 	if state == State.Aspiration:
