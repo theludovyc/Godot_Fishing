@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/Ocean-waves-and-seagulls-relaxation-sounds.wav-f2b0d97ff92b2f91e0b5a88360c9258b.sample"
+
+[deps]
+
+source_file="res://Art/Ocean-waves-and-seagulls-relaxation-sounds.wav"
+dest_files=[ "res://.import/Ocean-waves-and-seagulls-relaxation-sounds.wav-f2b0d97ff92b2f91e0b5a88360c9258b.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=true
+compress/mode=0
