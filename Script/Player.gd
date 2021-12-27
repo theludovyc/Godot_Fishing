@@ -19,9 +19,6 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	if flotteur:
-		line.set_point_position(1, to_local(flotteur.global_position))
-	
 	if Input.is_action_just_pressed("ui_accept"):
 		if !flotteur:
 			flotteur = Flotteur.instance()
@@ -29,25 +26,34 @@ func _process(delta):
 			get_parent().add_child(flotteur)
 			flotteur.lancer(500)
 		else:
-			if flotteur.canCatch():
-				print("hello")
-				flotteur.doCatch()
-			else:
-				flotteur.reset()
-				print("hello1")
+			if flotteur.isInWater():
+				if flotteur.canCatch():
+					print("doCatch")
+					flotteur.doCatch()
+				else:
+					print("doMove")
+					flotteur.doMove()
 				
-	if flotteur and Input.is_action_pressed("ui_accept"):
+	if flotteur:
+		line.set_point_position(1, to_local(flotteur.global_position))
+		
 		if flotteur.isInWater():
+			if Input.is_action_pressed("ui_accept"):
 				if !isMouliner:
 					isMouliner = true
 					audio.play()
 				flotteur.position.y += 100 * delta
+				
+			if isMouliner and Input.is_action_just_released("ui_accept"):
+				isMouliner = false
+				audio.stop()
 
-	if isMouliner and Input.is_action_just_released("ui_accept"):
+
+func _on_Area2D_area_entered(area:Area2D):
+	if area.name == "Flotteur":
+		area.kill_me()
 		isMouliner = false
 		audio.stop()
-
-
-func _on_Area2D_area_entered(area):
-	print(area.name)
+		line.set_point_position(1, Vector2.ZERO)
+		flotteur = null
 	pass # Replace with function body.

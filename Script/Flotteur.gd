@@ -8,21 +8,17 @@ onready var timer = $Timer
 onready var sprite = $Sprite
 onready var audio = $AudioStreamPlayer2D
 
-enum State {Lancer = 0, WaitingFish, Aspiration, WaitingCatch, Catch, Loose}
+enum State {Lancer = 0, Move, WaitingFish, Aspiration, WaitingCatch, Catch, Loose}
 
 var state = State.Lancer
 
 func lancer(force:float):
-	tween.interpolate_property(self, "position:y", null, position.y - force, 3, Tween.TRANS_QUART, Tween.EASE_OUT)
-	timer.start(2)
+	tween.interpolate_property(self, "position:y", null, position.y - force, 2, Tween.TRANS_QUART, Tween.EASE_OUT)
+	timer.start(1)
 	tween.start()
 
 func _on_Tween_tween_all_completed():
 	match(state):
-		State.Lancer:
-			state = State.WaitingFish
-			monitorable = true
-			timer.start(1) #rand_range(3, 5))
 		State.Aspiration:
 			state = State.WaitingCatch
 			timer.start(1)
@@ -43,7 +39,11 @@ func remonte():
 func _on_Timer_timeout():
 	match(state):
 		State.Lancer:
+			tween.remove(self)
 			audio.play()
+			state = State.WaitingFish
+			monitorable = true
+			timer.start(1) #rand_range(3, 5))
 		State.WaitingFish:
 			aspiration(0.5)
 			state = State.Aspiration
@@ -53,6 +53,10 @@ func _on_Timer_timeout():
 
 func isInWater() -> bool:
 	return state != State.Lancer
+
+func doMove():
+	remonte()
+	state = State.Move
 
 func canCatch() -> bool:
 	return state == State.WaitingCatch
