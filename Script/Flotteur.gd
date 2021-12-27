@@ -65,6 +65,9 @@ func doCatch():
 	tween.stop_all()
 	state = State.Catch
 
+func isCatch() -> bool:
+	return state == State.Catch
+
 func reset():
 	if state == State.Aspiration:
 		tween.stop_all()

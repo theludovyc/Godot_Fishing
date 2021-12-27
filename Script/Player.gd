@@ -26,7 +26,7 @@ func _process(delta):
 			get_parent().add_child(flotteur)
 			flotteur.lancer(500)
 		else:
-			if flotteur.isInWater():
+			if flotteur.isInWater() and !flotteur.isCatch():
 				if flotteur.canCatch():
 					print("doCatch")
 					flotteur.doCatch()
