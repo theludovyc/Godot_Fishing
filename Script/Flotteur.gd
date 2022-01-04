@@ -1,6 +1,8 @@
 extends Area2D
 class_name Flotteur
 
+var Fish = preload("res://Scene/Fish.tscn")
+
 signal finishLancer
 
 onready var tween = $Tween
@@ -21,7 +23,6 @@ func _on_Tween_tween_all_completed():
 	match(state):
 		State.Aspiration:
 			state = State.WaitingCatch
-			timer.start(1)
 		State.Loose:
 			state = State.WaitingFish
 			timer.start(1)
@@ -43,13 +44,18 @@ func _on_Timer_timeout():
 			audio.play()
 			state = State.WaitingFish
 			monitorable = true
-			timer.start(1) #rand_range(3, 5))
+			timer.start(2)
 		State.WaitingFish:
-			aspiration(0.5)
-			state = State.Aspiration
-		State.WaitingCatch:
-			remonte()
-			state = State.Loose
+			var fish = Fish.instance()
+			fish.position = position - Vector2(100, 0)
+			fish.flotteur = self
+			get_parent().add_child(fish)
+			state = State.WaitingCatch
+#			aspiration(0.5)
+#			state = State.Aspiration
+#		State.WaitingCatch:
+#			remonte()
+#			state = State.Loose
 
 func isInWater() -> bool:
 	return state != State.Lancer
