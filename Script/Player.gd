@@ -26,13 +26,8 @@ func _process(delta):
 			get_parent().add_child(flotteur)
 			flotteur.lancer(500)
 		else:
-			if flotteur.isInWater() and !flotteur.isCatch():
-				if flotteur.canCatch():
-					print("doCatch")
-					flotteur.doCatch()
-				else:
-					print("doMove")
-					flotteur.doMove()
+			if flotteur.isInWater():
+				flotteur.doMove()
 				
 	if flotteur:
 		line.set_point_position(1, to_local(flotteur.global_position))
@@ -40,8 +35,9 @@ func _process(delta):
 		if flotteur.isInWater():
 			if Input.is_action_pressed("ui_accept"):
 				if !isMouliner:
-					isMouliner = true
 					audio.play()
+					isMouliner = true
+					
 				flotteur.position.y += 100 * delta
 				
 			if isMouliner and Input.is_action_just_released("ui_accept"):

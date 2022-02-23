@@ -7,7 +7,7 @@
 extents = Vector2( 32, 7 )
 
 [node name="Fish" type="Area2D"]
-monitorable = false
+monitoring = false
 script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]
@@ -20,5 +20,3 @@ texture = ExtResource( 1 )
 shape = SubResource( 1 )
 
 [node name="Tween" type="Tween" parent="."]
-
-[connection signal="area_entered" from="." to="." method="_on_Fish_area_entered"]

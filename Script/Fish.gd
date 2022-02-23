@@ -18,16 +18,3 @@ func _process(delta):
 	
 		position += Vector2(20 * delta, 0).rotated(rotation)
 #	pass
-
-func reparent():
-	monitoring = false
-	var loc_pos = flotteur.to_local(position)
-	get_parent().remove_child(self)
-	flotteur.add_child(self)
-	position = loc_pos
-
-func _on_Fish_area_entered(area):
-	if area.name == "Flotteur":
-		catch = true
-		flotteur.aspiration(0.5)
-		call_deferred("reparent")

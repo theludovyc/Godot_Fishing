@@ -9,13 +9,43 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Reference",
+"class": "CommandData",
+"language": "GDScript",
+"path": "res://addons/TwitchChat/util/cmd_data.gd"
+}, {
+"base": "Reference",
+"class": "CommandInfo",
+"language": "GDScript",
+"path": "res://addons/TwitchChat/util/cmd_info.gd"
+}, {
 "base": "Area2D",
 "class": "Flotteur",
 "language": "GDScript",
 "path": "res://Script/Flotteur.gd"
+}, {
+"base": "Node",
+"class": "Gift",
+"language": "GDScript",
+"path": "res://addons/TwitchChat/gift_node.gd"
+}, {
+"base": "Resource",
+"class": "ImageCache",
+"language": "GDScript",
+"path": "res://addons/TwitchChat/util/image_cache.gd"
+}, {
+"base": "Reference",
+"class": "SenderData",
+"language": "GDScript",
+"path": "res://addons/TwitchChat/util/sender_data.gd"
 } ]
 _global_script_class_icons={
-"Flotteur": ""
+"CommandData": "",
+"CommandInfo": "",
+"Flotteur": "",
+"Gift": "",
+"ImageCache": "",
+"SenderData": ""
 }
 
 [application]
@@ -23,6 +53,18 @@ _global_script_class_icons={
 config/name="Fishing"
 run/main_scene="res://Scene/Game.tscn"
 config/icon="res://icon.png"
+
+[debug]
+
+settings/fps/force_fps=60
+
+[editor_plugins]
+
+enabled=PoolStringArray( "res://addons/TwitchChat/plugin.cfg" )
+
+[global]
+
+fps=false
 
 [physics]
 
